@@ -1,3 +1,4 @@
+/* Timeline Component */
 .timeline-component {
 	background-image: linear-gradient(135deg, #f5f7fa, #c4cfc4);
 	display: flex;
@@ -8,22 +9,36 @@
 	height: 90vh;
 }
 
-.timeline-box {
-	border: red 1px solid;
-	width: 80%;
+.filters:div {
+	margin: 0px 5px;
 }
 
+.timeline-box {
+	/* border: red 1px solid; */
+	width: 90%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Holds all events */
+.events {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	border: blue 1px dotted;
+	padding: 0 10px;
+	height: 100%;
+}
 .timeline-line {
 	/* z-index: 0; */
 	background-color: black;
 	content: "";
 	position: absolute;
+	left: 50%;
 	width: 4px;
-	height: 500px;
-}
-
-.events {
-	border: blue 1px dotted;
+	height: 100%;
+	/* overflow: scroll; */
 }
 
 .year {
@@ -31,39 +46,45 @@
 }
 /* Event component */
 .event-box {
+	z-index: 0;
 	border-radius: 25px;
-	padding: 10px;
-	width: 400px;
-	height: 100px;
-	background-color: skyblue;
-	margin: 20px;
+	padding: 15px;
+	/* min-width: 400px; */
+	width: 45%;
+	height: 50px;
+	background-color: white;
 }
 
 .event-box.left {
-	border: red solid 0.5px;
-	margin-right: 500px;
+	margin-right: auto;
 }
 
 .event-box.right {
-	border: blue solid 0.5px;
-	margin-left: 500px;
-}
-
-.snippet-box {
-}
-
-.detail-box {
+	margin-left: auto;
 }
 
 .event-labels {
+	z-index: 0;
 	display: flex;
 	justify-content: space-between;
 }
-
-.label-types {
-	display: flex;
+.snippet-box {
+	font-size: smaller;
 }
 
-.label-types .type {
-	margin: 0 5px 0 5px;
+.detail-box {
+	top: 5px;
+	border-radius: 0 0 15px 15px;
+	border-top: black 2px solid;
+	background-color: rgb(233, 233, 233);
+	font-size: smaller;
+}
+
+.detail-types {
+	display: flex;
+	justify-content: space-around;
+	line-height: 0px;
+
+	margin-left: auto;
+	width: 60px;
 }
