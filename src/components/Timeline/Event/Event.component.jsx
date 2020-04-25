@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Badge from '@material-ui/core/Badge';
 
-function Event({ event_data, index, buttonTypes }) {
+function Event({ event_data, index, buttonTypes, currentAge }) {
 	let [ clicked, clickedSet ] = useState(false);
 	let [ boxLocation, boxLocationSet ] = useState('center');
-	let { date, details, image, link, location, reference, snippet, types, user } = event_data;
+	let { date, details, image, link, location, reference, snippet, types, user, sortedOrder } = event_data;
 
 	useEffect(
 		() => {
@@ -59,11 +59,12 @@ function Event({ event_data, index, buttonTypes }) {
 			{!clicked ? (
 				<div className="event-labels">
 					<div className="snippet-box">{snippet}</div>
-
+					<div className="current-age">{currentAge} Y </div>
 					<div className="label-types">{showType(types)}</div>
 				</div>
 			) : (
 				<div className="detail-box">
+					<div className="detail-age">{currentAge} Years Old </div>
 					<div className="detail-types">{showType(types)}</div>
 					<p>{details}</p>
 				</div>
