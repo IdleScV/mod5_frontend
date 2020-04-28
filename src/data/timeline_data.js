@@ -33,7 +33,8 @@ export let timeline_data_1 = {
 		eventData.event_data3,
 		eventData.event_data4,
 		eventData.event_data5,
-		eventData.event_data6
+		eventData.event_data6,
+		eventData.event_data7
 	],
 	created_at: '2020-04-22 13:36:22.459149334 +0000',
 	updated_at: '2020-04-22 13:36:22.459149334 +0000'

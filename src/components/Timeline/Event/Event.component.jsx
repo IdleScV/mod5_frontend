@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Badge from '@material-ui/core/Badge';
 
-function Event({ event_data, index, buttonTypes, currentAge }) {
+function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }) {
 	let [ clicked, clickedSet ] = useState(false);
-	let [ boxLocation, boxLocationSet ] = useState('center');
+	let [ boxLocation, boxLocationSet ] = useState('left');
+	let [ boxPercentage, boxPercentageSet ] = useState('');
 	let { date, details, image, link, location, reference, snippet, types, user, sortedOrder } = event_data;
 
+	// determines if event is left or right
 	useEffect(
 		() => {
 			const figureLocation = (index_num) => {
@@ -20,13 +21,33 @@ function Event({ event_data, index, buttonTypes, currentAge }) {
 		[ index ]
 	);
 
+	// Find position on chart
+	useEffect(
+		() => {
+			const findLocationPercentage = () => {
+				let percent = '';
+				if (currentAge > ageRange[0] || currentAge < ageRange[1]) {
+					// percent = ((currentAge - ageRange[0] / ageRange[1] - ageRange[0]) * 100).toFixed(1);
+					percent = (currentAge - ageRange[0]) / (ageRange[1] - ageRange[0]) * 100;
+				} else {
+					percent = '';
+				}
+
+				return Math.floor(percent) + '%';
+			};
+
+			boxPercentageSet(findLocationPercentage());
+		},
+		[ ageRange, filters, currentAge ]
+	);
+
 	const showType = (typeArr) => {
 		let colorPicker = (type_str) => {
 			switch (type_str) {
 				case 'Major':
-					return 'primary';
+					return 'secondary';
 				case 'Minor':
-					return 'primary';
+					return 'secondary';
 				case 'Personal':
 					return 'primary';
 				case 'World':
@@ -40,8 +61,8 @@ function Event({ event_data, index, buttonTypes, currentAge }) {
 			}
 		};
 		return typeArr.map((type, i) => (
-			<div className="badge-item" key={i}>
-				<Badge badgeContent={type[0]} color={colorPicker(type)} key={i} />
+			<div className="badge-item" key={i} style={{ color: 'black' }}>
+				{type[0]}
 			</div>
 		));
 	};
@@ -53,14 +74,24 @@ function Event({ event_data, index, buttonTypes, currentAge }) {
 			onClick={() => {
 				clickedSet(!clicked);
 			}}
-			// This top style should be used to increment based on the date
-			style={{ top: index * 200 + 250 }}
+			style={{ top: boxPercentage }}
 		>
+			{boxLocation === 'right' ? (
+				<div className={`event-line ${boxLocation}`} style={{}}>
+					{`${xAdjustment > 0 ? '-'.repeat(xAdjustment / 15.5) : ''}`}
+				</div>
+			) : (
+				<div className={`event-line ${boxLocation}`} style={{}}>
+					{`${xAdjustment > 0 ? '-'.repeat(xAdjustment / 15.5) : ''}`}
+				</div>
+			)}
 			{!clicked ? (
 				<div className="event-labels">
 					<div className="snippet-box">{snippet}</div>
-					<div className="current-age">{currentAge} Y </div>
-					<div className="label-types">{showType(types)}</div>
+					<div className="event-right-label">
+						<div className="current-age">{currentAge} Y </div>
+						<div className="label-types">{showType(types)}</div>
+					</div>
 				</div>
 			) : (
 				<div className="detail-box">

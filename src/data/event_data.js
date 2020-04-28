@@ -58,7 +58,7 @@ export let event_data2 = {
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	date: '10/07/1856',
 	location: cityData.smijan,
-	types: [ 'Minor', 'Personal' ],
+	types: [ 'Major', 'Personal' ],
 	link: {
 		url: 'https://en.wikipedia.org/wiki/Nikola_Tesla#Move_to_the_United_States'
 	},
@@ -75,7 +75,7 @@ export let event_data3 = {
 		type: 'World',
 		instance: null
 	},
-	snippet: 'Lorem Ipsun',
+	snippet: 'This is jsut words to test how long this box can be ',
 	details:
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	date: '12/10/1913',
@@ -147,6 +147,28 @@ export let event_data6 = {
 	date: '4/8/1930',
 	location: countryData.united_states,
 	types: [ 'Minor', 'Personal' ],
+	link: {
+		url: 'https://en.wikipedia.org/wiki/Nikola_Tesla#Move_to_the_United_States'
+	},
+	image: {
+		url:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Edison_machine_works_goerck_street_new_york_1881.png/220px-Edison_machine_works_goerck_street_new_york_1881.png',
+		text: 'Edison Machine Works on Goerck Street, New York.'
+	}
+};
+
+export let event_data7 = {
+	user: userData.user1,
+	reference: {
+		type: 'Country',
+		instance: countryData.united_states
+	},
+	snippet: 'Death',
+	details:
+		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	date: '1/7/1943',
+	location: countryData.united_states,
+	types: [ 'Major', 'Personal' ],
 	link: {
 		url: 'https://en.wikipedia.org/wiki/Nikola_Tesla#Move_to_the_United_States'
 	},
