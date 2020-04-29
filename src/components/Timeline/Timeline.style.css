@@ -81,11 +81,10 @@
 .event-box {
 	position: absolute;
 	border-radius: 5px;
-
 	margin-top: -25px;
 	padding: 15px;
 	width: 250px;
-	height: 50px;
+	height: 25px;
 	background-color: white;
 	border: black solid 0.5px;
 }
@@ -95,7 +94,7 @@
 }
 
 .event-line.left {
-	margin-left: 232px;
+	margin-left: 265px;
 	position: absolute;
 
 	/* border: red 1px solid; */
@@ -110,7 +109,7 @@
 	/* margin-right: -20px; */
 	right: 250px;
 	position: absolute;
-
+	margin-right: 30px;
 	/* border: red 1px solid; */
 
 	height: 20px;
@@ -122,6 +121,9 @@
 	justify-content: center;
 }
 
+.event-box {
+	z-index: 5;
+}
 .event-box.left {
 	max-zoom: 10%;
 	left: 35px;

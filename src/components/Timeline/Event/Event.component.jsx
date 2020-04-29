@@ -82,7 +82,7 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 				</div>
 			) : (
 				<div className={`event-line ${boxLocation}`} style={{}}>
-					{`${xAdjustment > 0 ? '-'.repeat(xAdjustment / 15.5) : ''}`}
+					{`${xAdjustment > 0 ? '-'.repeat((xAdjustment - 15) / 15.8) : ''}`}
 				</div>
 			)}
 			{!clicked ? (

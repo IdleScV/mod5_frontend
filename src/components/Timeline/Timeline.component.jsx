@@ -1,8 +1,8 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 // Components
 import Event from './Event/Event.component';
 
-// hooks
+// windowsize Hook
 import { useResize } from '../../hooks/windowSize';
 
 // Styles
@@ -10,6 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import './Timeline.style.css';
+
+//URL
+import { URL } from '../../urlEnv/index';
 
 // Data
 import { timelineData } from '../../data/index';
@@ -24,20 +27,39 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Timeline() {
+function Timeline(props) {
+	// Style
 	const inlineStyles = useStyles();
+
+	// State
 	let [ filters, filtersSet ] = useState([]);
 	let [ ageRange, ageRangeSet ] = useState([ 0, 100 ]);
-	const componentRef = useRef();
-	const { width, height } = useResize(componentRef);
+	let [ timelineDataInfo, timelineDataInfoSet ] = useState(null);
 
+	// Window size Hook
+	const componentRef = useRef();
+	const { width } = useResize(componentRef);
+
+	// const timelineId = ;
 	// Destructured timeline data
+	useEffect(
+		() => {
+			fetch(URL + 'timelines/' + props.match.params.id)
+				.then((response) => response.json())
+				.then((json) => timelineDataInfoSet('back end', json.person));
+		},
+		[ props.match.params.id ]
+	);
+
 	let { timeline_data_1 } = timelineData;
+
 	let { events, title, user, person } = timeline_data_1;
 	let { username, firebase_id } = user;
-	let { birthday, deathday, name, initial_state } = person;
-	let { age, location: place_of_birth } = initial_state;
-	let { name: birth_city, country: { name: birth_country } } = place_of_birth;
+	let { birthday, deathday, name } = person;
+
+	// let { events, person, title, user } = timelineDataInfo;
+	// let { username, firebase_id, id: userId } = user;
+	// let { name, birthday, deathday, id: personId } = person;
 
 	const buttonTypes = [
 		{ name: 'Major', color: 'secondary' },
@@ -192,7 +214,7 @@ function Timeline() {
 								currentAge={findYear(event.date) - findYear(birthday)}
 								birthyear={findYear(birthday)}
 								ageRange={ageRange}
-								xAdjustment={width - 635}
+								xAdjustment={width - 690}
 								filters={filters}
 							/>
 						))}

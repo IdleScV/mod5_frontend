@@ -3,24 +3,6 @@ import * as personData from './person_data';
 import * as eventData from './event_data';
 
 // ! EXAMPLE
-// let blank_timeline_data = {
-// 	title: '',
-// 	user: {
-// 		username: ' ',
-// 		firebase_id: ' '
-// 	},
-// 	Person: {
-// 		name: '',
-// 		birthday: '',
-// 		deathday: '',
-// 		initial_state: { location: birth_location, age: 0 },
-// 		parents: [ '', '' ],
-// 		partner: ''
-// 	},
-// 	events: [ event_instances ],
-// 	created: '',
-// 	updated: ''
-// };
 
 export let timeline_data_1 = {
 	title: 'Life of Nikola Tesla',
