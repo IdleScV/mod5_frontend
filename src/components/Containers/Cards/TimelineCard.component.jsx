@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function TimelineCard({ data }) {
 	const [ detail, detailSet ] = useState(false);
 	const { title, id, person: { name: person }, user: { username: creator }, picture } = data;
-	console.log('Id', id);
+
 	return (
 		<div className="timeline-card-frame">
 			<Link to={`/timeline/${id}`} style={{ textDecoration: 'none' }}>

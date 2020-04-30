@@ -4,8 +4,25 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 	let [ clicked, clickedSet ] = useState(false);
 	let [ boxLocation, boxLocationSet ] = useState('left');
 	let [ boxPercentage, boxPercentageSet ] = useState('');
-	let { date, details, image, link, location, reference, snippet, types, user, sortedOrder } = event_data;
+	// let { image, link, location, reference, snippet, types, user } = event_data;
+	console.log(currentAge);
+	let {
+		date,
+		details,
+		id: eventId,
+		imageText,
+		imageUrl,
+		instance_id,
+		instance_type,
+		link,
+		location,
+		scale,
+		snippet,
+		birth,
+		sortedOrder
+	} = event_data;
 
+	let types = [ instance_type, scale ];
 	// determines if event is left or right
 	useEffect(
 		() => {
@@ -68,6 +85,7 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 	};
 
 	return (
+		// <div>Event</div>
 		<div
 			className={`event-box ${boxLocation} `}
 			id={clicked ? 'selected' : ''}
@@ -85,21 +103,15 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 					{`${xAdjustment > 0 ? '-'.repeat((xAdjustment - 15) / 15.8) : ''}`}
 				</div>
 			)}
-			{!clicked ? (
-				<div className="event-labels">
-					<div className="snippet-box">{snippet}</div>
-					<div className="event-right-label">
-						<div className="current-age">{currentAge} Y </div>
-						<div className="label-types">{showType(types)}</div>
-					</div>
+
+			<div className="event-labels">
+				<div className="snippet-box">{snippet}</div>
+				<div className="event-right-label">
+					<div className="current-age">{currentAge} Y </div>
+					<div className="label-types">{showType(types)}</div>
 				</div>
-			) : (
-				<div className="detail-box">
-					<div className="detail-age">{currentAge} Years Old </div>
-					<div className="detail-types">{showType(types)}</div>
-					<p>{details}</p>
-				</div>
-			)}
+			</div>
+			{!clicked ? <div /> : <div className="details-box">{details}</div>}
 		</div>
 	);
 }

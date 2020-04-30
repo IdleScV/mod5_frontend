@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
 
 // CSS
 import './Navbar.style.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Navbar() {
+function Navbar(props) {
 	const [ user, userSet ] = useState(true);
 	const classes = useStyles();
 
@@ -30,12 +29,7 @@ function Navbar() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	// return (
-	// 	<div>
-	// 		<button onClick={() => userSet(!user)}>{user ? 'Log Out' : 'Log In'}</button>
-	// 		{user ? yesUserLogged() : noUserLogged()}
-	// 	</div>
-	// );
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="static">
@@ -107,35 +101,7 @@ function Navbar() {
 						</Menu>
 					)}
 
-					{/* MENU ENDS HERE */}
 					{user ? yesUserLogged() : noUserLogged()}
-					{/* <Switch>
-						<Route exact path="/">
-							<Typography variant="h6" color="inherit">
-								HomePage
-							</Typography>
-						</Route>
-						<Route exact path="/timelines">
-							<Typography variant="h6" color="inherit">
-								Browse Timelines
-							</Typography>
-						</Route>
-						<Route exact path="/profile">
-							<Typography variant="h6" color="inherit">
-								Profile
-							</Typography>
-						</Route>
-						<Route exact path="/timelines/:id">
-							<Typography variant="h6" color="inherit">
-								Timeline
-							</Typography>
-						</Route>
-						<Route path="/timeline/:timelineId">
-							<Typography variant="h6" color="inherit">
-								Timeline
-							</Typography>
-						</Route>
-					</Switch> */}
 				</Toolbar>
 			</AppBar>
 		</div>
@@ -144,28 +110,30 @@ function Navbar() {
 
 function yesUserLogged() {
 	return (
-		<Switch>
-			<Route exact path="/">
-				<Typography variant="h6" color="inherit">
-					HomePage
-				</Typography>
-			</Route>
-			<Route exact path="/timelines">
-				<Typography variant="h6" color="inherit">
-					Browse Timelines
-				</Typography>
-			</Route>
-			<Route exact path="/profile">
-				<Typography variant="h6" color="inherit">
-					Profile
-				</Typography>
-			</Route>
-			<Route exact path="/timelines/:id">
-				<Typography variant="h6" color="inherit">
-					Timeline
-				</Typography>
-			</Route>
-		</Switch>
+		<div>
+			<Switch>
+				<Route exact path="/">
+					<Typography variant="h6" color="inherit">
+						HomePage
+					</Typography>
+				</Route>
+				<Route exact path="/timelines">
+					<Typography variant="h6" color="inherit">
+						Browse Timelines
+					</Typography>
+				</Route>
+				<Route exact path="/profile">
+					<Typography variant="h6" color="inherit">
+						Profile
+					</Typography>
+				</Route>
+				<Route path="/timeline/:id">
+					<Typography variant="h6" color="inherit">
+						Timeline
+					</Typography>
+				</Route>
+			</Switch>
+		</div>
 	);
 }
 
