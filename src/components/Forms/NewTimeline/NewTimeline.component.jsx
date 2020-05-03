@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
-import { FormControl, TextField, Button } from '@material-ui/core';
-
+import { FormControl, TextField, Button, Select } from '@material-ui/core';
+import { withAuthorization } from '../../../authentication/Session';
 import { URL } from '../../../urlEnv';
+import CountryRegionMUISelectors from '../Selector/CountryRegionMUISelectors.component.js';
 
-function NewTimeline() {
+function NewTimeline(props) {
 	const [ title, titleSet ] = useState('');
 	const [ person, personSet ] = useState('');
 	const [ birthday, birthdaySet ] = useState('2020-04-20');
-	const [ deathday, deathdaySet ] = useState('0000-00-00');
+	const [ deathday, deathdaySet ] = useState('');
+	const [ userData, userDataSet ] = useState([]);
+	const [ country, countrySet ] = useState('');
+	const [ region, regionSet ] = useState('');
+
+	props.firebase.user(props.firebase.auth.W).once('value', (snapshot) => {
+		userDataSet(snapshot.val());
+	});
 
 	const handleSubmit = () => {
 		let payload = {
 			title: title,
 			person: person,
 			birthday: birthday,
-			deathday: deathday
+			deathday: deathday,
+			firebase_id: props.firebase.auth.W,
+			username: userData.username,
+			country: country[0],
+			region: region
 		};
 
 		fetch(URL + 'timelines', {
@@ -79,6 +91,13 @@ function NewTimeline() {
 						deathdaySet(e.target.value);
 					}}
 				/>
+
+				<CountryRegionMUISelectors
+					handleCountry={countrySet}
+					handleRegion={regionSet}
+					country={country}
+					region={region}
+				/>
 				<Button onClick={handleSubmit} variant="contained" color="secondary">
 					Submit
 				</Button>
@@ -87,4 +106,7 @@ function NewTimeline() {
 	);
 }
 
-export default NewTimeline;
+// makes sure user is logged in for page access
+const authCondition = (authUser) => !!authUser;
+// provides firebase props
+export default withAuthorization(authCondition)(NewTimeline);

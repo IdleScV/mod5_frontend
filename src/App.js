@@ -9,6 +9,10 @@ import AllTimelinesContainer from './components/Containers/AllTimelinesContainer
 import Timeline from './components/Timeline/Timeline.component';
 import NewTimeline from './components/Forms/NewTimeline/NewTimeline.component';
 
+// Authentication
+import Authentication from './authentication/Main/Authentication.component';
+import { withAuthentication } from './authentication/Session';
+
 import './App.css';
 function App() {
 	return (
@@ -23,9 +27,10 @@ function App() {
 				<Route exact path="/profile" component={Profile} />
 				<Route path="/timeline/:id" component={Timeline} />
 				<Route exact path="/create" component={NewTimeline} />
+				<Authentication />
 			</Switch>
 		</Router>
 	);
 }
 
-export default App;
+export default withAuthentication(App);

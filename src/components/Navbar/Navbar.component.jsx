@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 
 // CSS
 import './Navbar.style.css';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+
+// Authentication
+import * as ROUTES from '../../constants/routes';
+import SignOutButton from '../../authentication/SignOut';
+import { AuthUserContext } from '../../authentication/Session';
+import { withFirebase } from '../../authentication/Firebase';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar(props) {
-	const [ user, userSet ] = useState(true);
 	const classes = useStyles();
 
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
@@ -44,118 +49,61 @@ function Navbar(props) {
 						<MenuIcon />
 					</IconButton>
 					{/* MENU STARTS HERE */}
-					{user ? (
-						<Menu
-							id="simple-menu"
-							anchorEl={anchorEl}
-							keepMounted
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-							className="menu-dropdown"
-						>
-							<MenuItem onClick={handleClose}>
-								<Link to="/">Home</Link>
-							</MenuItem>
-							<MenuItem onClick={handleClose}>
-								<Link to="/timelines">Timelines</Link>
-							</MenuItem>
-							<MenuItem onClick={handleClose}>
-								<Link to="/profile">Profile</Link>
-							</MenuItem>
-							<MenuItem onClick={handleClose}>
-								<Link to="/create">Create</Link>
-							</MenuItem>
-							<MenuItem
-								onClick={() => {
-									handleClose();
-									userSet(false);
-								}}
-							>
-								<Link to="/">Log Out</Link>
-							</MenuItem>
-						</Menu>
-					) : (
-						<Menu
-							id="simple-menu"
-							anchorEl={anchorEl}
-							keepMounted
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-							className="menu-dropdown"
-						>
-							<MenuItem onClick={handleClose}>
-								<Link to="/">Home</Link>
-							</MenuItem>
-							<MenuItem onClick={handleClose}>
-								<Link to="/timelines">Timelines</Link>
-							</MenuItem>
+					<AuthUserContext.Consumer>
+						{(authUser) =>
+							authUser ? (
+								<Menu
+									id="simple-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={handleClose}
+									className="menu-dropdown"
+								>
+									<MenuItem onClick={handleClose}>
+										<Link to="/">Home</Link>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<Link to="/timelines">Timelines</Link>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<Link to="/profile">Profile</Link>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<Link to="/create">Create</Link>
+									</MenuItem>
+									<MenuItem>
+										<SignOutButton />
+									</MenuItem>
+								</Menu>
+							) : (
+								<Menu
+									id="simple-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={handleClose}
+									className="menu-dropdown"
+								>
+									<MenuItem onClick={handleClose}>
+										<Link to="/">Home</Link>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<Link to="/timelines">Timelines</Link>
+									</MenuItem>
 
-							<MenuItem
-								onClick={() => {
-									handleClose();
-									userSet(true);
-								}}
-							>
-								<Link to="/">Log In</Link>
-							</MenuItem>
-						</Menu>
-					)}
-
-					{user ? yesUserLogged() : noUserLogged()}
+									<MenuItem>
+										<Link to={ROUTES.SIGN_IN}>Sign In</Link>
+									</MenuItem>
+									<MenuItem>
+										<Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+									</MenuItem>
+								</Menu>
+							)}
+					</AuthUserContext.Consumer>
 				</Toolbar>
 			</AppBar>
 		</div>
-	);
-}
-
-function yesUserLogged() {
-	return (
-		<div>
-			<Switch>
-				<Route exact path="/">
-					<Typography variant="h6" color="inherit">
-						HomePage
-					</Typography>
-				</Route>
-				<Route exact path="/timelines">
-					<Typography variant="h6" color="inherit">
-						Browse Timelines
-					</Typography>
-				</Route>
-				<Route exact path="/profile">
-					<Typography variant="h6" color="inherit">
-						Profile
-					</Typography>
-				</Route>
-				<Route path="/timeline/:id">
-					<Typography variant="h6" color="inherit">
-						Timeline
-					</Typography>
-				</Route>
-			</Switch>
-		</div>
-	);
-}
-
-function noUserLogged() {
-	return (
-		<Switch>
-			<Route exact path="/">
-				<Typography variant="h6" color="inherit">
-					HomePage
-				</Typography>
-			</Route>
-			<Route exact path="/timelines">
-				<Typography variant="h6" color="inherit">
-					Browse Timelines
-				</Typography>
-			</Route>
-			<Route exact path="/timelines/:id">
-				<Typography variant="h6" color="inherit">
-					Timeline
-				</Typography>
-			</Route>
-		</Switch>
 	);
 }
 
