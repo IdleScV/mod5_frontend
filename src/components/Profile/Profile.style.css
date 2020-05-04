@@ -1,0 +1,18 @@
+.profile-page {
+	/* border: solid red 2px; */
+	text-align: center;
+}
+
+.profile-page > .timeline-container {
+	border: solid red 2px;
+	display: flex;
+
+	flex-wrap: wrap;
+	padding: 20px;
+}
+
+.navbar .title {
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
+		sans-serif;
+	font-weight: bold;
+}

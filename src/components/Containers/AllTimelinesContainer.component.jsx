@@ -17,8 +17,7 @@ function AllTimelineContainer() {
 	}, []);
 
 	return (
-		<div>
-			<h2>Browse Timelines</h2>
+		<div className="browse-timeliens-page">
 			<div className="all-timelines-container">
 				{timelines ? timelines.map((timeline, i) => <TimelineCard data={timeline} key={i} />) : null}
 			</div>

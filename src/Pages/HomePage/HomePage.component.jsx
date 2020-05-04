@@ -1,10 +1,8 @@
 import React from 'react';
 import { AuthUserContext } from '../../authentication/Session';
 function HomePage(props) {
-	console.log(props);
 	return (
 		<div>
-			<div>This is the Home Page</div>
 			<AuthUserContext.Consumer>
 				{(authUser) =>
 					authUser ? (

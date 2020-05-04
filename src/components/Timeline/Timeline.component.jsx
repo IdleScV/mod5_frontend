@@ -11,12 +11,14 @@ import { useFetch } from '../../hooks/useFetch';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Slider } from '@material-ui/core';
 import './Timeline.style.css';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import AddIcon from '@material-ui/icons/Add';
 
 //URL
 import { URL } from '../../urlEnv/index';
 
 // Data
-import { timelineData } from '../../data/index';
+// import { timelineData } from '../../data/index';
 
 // React Dom
 import { useHistory } from 'react-router-dom';
@@ -29,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Timeline(props) {
+	// current date
+	let d = new Date();
 	// React Router Hook
 	const history = useHistory();
 	// Fetch Hook
@@ -36,7 +40,7 @@ function Timeline(props) {
 
 	// State
 	let [ filters, filtersSet ] = useState([]);
-	let [ ageRange, ageRangeSet ] = useState([ 0, 100 ]);
+	let [ ageRange, ageRangeSet ] = useState([ 0, 50 ]);
 
 	// Style Hook
 	const inlineStyles = useStyles();
@@ -60,7 +64,7 @@ function Timeline(props) {
 		const { birthday, deathday } = person;
 
 		// timeline hard coded data
-		let { timeline_data_1 } = timelineData;
+		// let { timeline_data_1 } = timelineData;
 		// let { events } = timeline_data_1;
 
 		// Button Color
@@ -110,40 +114,18 @@ function Timeline(props) {
 			return event_data.filter((event) => currentAge(event) >= ageRange[0] && currentAge(event) <= ageRange[1]);
 		};
 
-		// Slider functions
-		const marks = [
-			{
-				value: 0,
-				label: '0'
-			},
-			{
-				value: 20,
-				label: '20'
-			},
-			{
-				value: 40,
-				label: '40'
-			},
-			{
-				value: 60,
-				label: '60'
-			},
-			{
-				value: 80,
-				label: '80'
-			},
-			{
-				value: 100,
-				label: '100'
-			}
-		];
 		const handleSlider = (e, newValue) => {
+			// Set min difference to 10
 			if (newValue[1] - newValue[0] >= 10 && newValue !== ageRange) {
 				ageRangeSet(newValue);
 			}
 		};
 		const deathAge = () => {
 			return findYear(deathday) - findYear(birthday);
+		};
+
+		const currentAgeToDate = () => {
+			return d.getFullYear() - findYear(birthday);
 		};
 		const roundUpTen = (num) => {
 			return Math.ceil((num + 1) / 10) * 10;
@@ -164,9 +146,16 @@ function Timeline(props) {
 
 		return (
 			<div className="timeline-component" ref={componentRef}>
-				<Button onClick={() => history.goBack()}>Back</Button>
+				<div className="header">
+					<Button color="primary" onClick={() => history.goBack()}>
+						<ArrowBackIcon />
+					</Button>
 
-				<h3 className="title">{title}</h3>
+					<h3 className="title">{title}</h3>
+					<Button color="primary">
+						<AddIcon />
+					</Button>
+				</div>
 				<div className="filters">
 					{buttonTypes.map((button, i) => (
 						<Button
@@ -183,18 +172,14 @@ function Timeline(props) {
 					))}
 
 					<Slider
-						defaultValue={[ 0, 80 ]}
+						defaultValue={[ 0, deathday ? deathAge() : currentAgeToDate() ]}
 						value={ageRange}
 						onChange={handleSlider}
-						valueLabelDisplay="off"
 						aria-labelledby="range-slider"
-						step={5}
-						marks={marks.slice(0, roundUpTen(deathAge()) / 20 + 2).concat({
-							value: deathAge(),
-							label: 'Death'
-						})}
+						step={1}
 						min={0}
-						max={100}
+						max={deathday ? deathAge() : currentAgeToDate()}
+						valueLabelDisplay="auto"
 					/>
 				</div>
 				<div className="timeline-box">
@@ -221,9 +206,11 @@ function Timeline(props) {
 						</div>
 					</div>
 					{deathday !== null ? (
+						// <div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
 						<div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
 					) : (
-						<div className="present year">Present</div>
+						// <div className="present year">Present Day: {`${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`}</div>
+						<div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
 					)}
 				</div>
 			</div>

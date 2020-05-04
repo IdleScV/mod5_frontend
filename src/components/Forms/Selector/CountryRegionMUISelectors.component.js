@@ -4,6 +4,8 @@ import { CountryRegionData } from 'react-country-region-selector';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
+import './CountryRegionMUISelectors.style.css';
+
 const getRegions = (country) => {
 	if (!country) {
 		return [];
@@ -16,7 +18,7 @@ const getRegions = (country) => {
 
 function CountryRegionMUISelectors(props) {
 	return (
-		<form>
+		<form className="countryRegion">
 			<TextField
 				id="country"
 				label="Country"

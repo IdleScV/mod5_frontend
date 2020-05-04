@@ -1,26 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { AuthUserContext, withAuthorization } from '../../authentication/Session';
+import { withAuthorization } from '../../authentication/Session';
+import { URL } from '../../urlEnv/index';
+import TimelineCard from '../Containers/Cards/TimelineCard.component';
+import './Profile.style.css';
 function Profile(props) {
 	const [ userData, userDataSet ] = useState([]);
+	const [ timelines, timelinesSet ] = useState([]);
 
-	props.firebase.user(props.firebase.auth.W).once('value', (snapshot) => {
-		userDataSet(snapshot.val());
-	});
-
-	const fetchUserTimelines = () => {
-		console.log('Fetching Timelines');
-	};
+	useEffect(
+		() => {
+			const fetchProfile = () => {
+				fetch(URL + 'user_timelines/' + props.firebase.auth.W)
+					.then((response) => response.json())
+					.then((json) => timelinesSet(json));
+			};
+			const findUser = () => {
+				props.firebase.user(props.firebase.auth.W).once('value', (snapshot) => {
+					userDataSet(snapshot.val());
+				});
+			};
+			findUser();
+			fetchProfile();
+		},
+		[ props.firebase ]
+	);
 
 	return (
-		<div>
-			<h2>This is the Profile page</h2>
-
+		<div className="profile-page">
 			<div>
 				Email: {userData.email}
 				<br />
 				Username: {userData.username}
 			</div>
-			<div>Should list all of this person's timelines & events theyve created</div>
+			{timelines.message ? (
+				<div>{timelines.message}</div>
+			) : timelines ? (
+				<div className="timeline-container">
+					{timelines ? timelines.map((timeline, i) => <TimelineCard data={timeline} key={i} />) : null}
+				</div>
+			) : (
+				<div>Loading</div>
+			)}
 		</div>
 	);
 }

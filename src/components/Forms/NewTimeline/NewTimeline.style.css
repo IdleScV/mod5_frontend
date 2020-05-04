@@ -1,0 +1,28 @@
+.newTimeline {
+	/* border: solid 2px red; */
+	text-align: center;
+}
+
+.newTimeline > div {
+	/* border: solid 2px red; */
+}
+
+.newTimeline > div > .text {
+	display: flex;
+	flex-direction: column;
+	/* border: solid 2px red; */
+}
+
+.newTimeline > div > .text > div {
+	margin: 10px;
+	/* border: solid 2px blue; */
+}
+
+.newTimeline > div > .text > .date > div {
+	margin: 10px;
+	/* border: solid 2px blue; */
+}
+
+.newTimeline > .location > div {
+	border: solid 2px red;
+}

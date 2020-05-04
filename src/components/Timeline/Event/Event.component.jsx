@@ -5,7 +5,7 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 	let [ boxLocation, boxLocationSet ] = useState('left');
 	let [ boxPercentage, boxPercentageSet ] = useState('');
 	// let { image, link, location, reference, snippet, types, user } = event_data;
-	console.log(currentAge);
+	// console.log(currentAge);
 	let {
 		date,
 		details,

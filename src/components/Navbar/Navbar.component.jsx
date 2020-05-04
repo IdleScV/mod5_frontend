@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // CSS
 import './Navbar.style.css';
-import { Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -36,7 +36,7 @@ function Navbar(props) {
 	};
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.root + ' navbar'}>
 			<AppBar position="static">
 				<Toolbar variant="dense">
 					<IconButton
@@ -101,6 +101,23 @@ function Navbar(props) {
 								</Menu>
 							)}
 					</AuthUserContext.Consumer>
+					<div className="title">
+						<Switch>
+							<Route exact path="/">
+								HOME
+							</Route>
+							<Route exact path="/timelines">
+								BROWSE
+							</Route>
+							<Route exact path="/profile">
+								PROFILE
+							</Route>
+							<Route path="/timeline/:id">TIMELINE</Route>
+							<Route exact path="/create">
+								CREATE
+							</Route>
+						</Switch>
+					</div>
 				</Toolbar>
 			</AppBar>
 		</div>

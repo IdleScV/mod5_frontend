@@ -1,0 +1,6 @@
+.countryRegion > div {
+	display: flex;
+	flex-direction: column;
+	margin: 10px;
+	/* border: solid red 2px; */
+}

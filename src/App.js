@@ -14,7 +14,8 @@ import Authentication from './authentication/Main/Authentication.component';
 import { withAuthentication } from './authentication/Session';
 
 import './App.css';
-function App() {
+function App(props) {
+	// console.log(props);
 	return (
 		<Router>
 			<div className="App">
