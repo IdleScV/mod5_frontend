@@ -1,11 +1,34 @@
 import React, { useState, useEffect } from 'react';
+
+// Auth
 import { withAuthorization } from '../../authentication/Session';
+
+// Links
 import { URL } from '../../urlEnv/index';
+import { Link } from 'react-router-dom';
+
+// Components
+import NewTimeline from '../Forms/NewTimeline/NewTimeline.component';
 import TimelineCard from '../Containers/Cards/TimelineCard.component';
+import EditTimeline from '../Forms/EditTimeline/EditTimeline.component';
+import PublishTimeline from '../Forms/PublishTimeline/PublishTimeline.component';
+import DeleteTimeline from '../Forms/DeleteTimeline/DeleteTimeline.component';
+
+// style
 import './Profile.style.css';
+import { Button } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import PublishIcon from '@material-ui/icons/Publish';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+
 function Profile(props) {
 	const [ userData, userDataSet ] = useState([]);
 	const [ timelines, timelinesSet ] = useState([]);
+	const [ showEdit, showEditSet ] = useState(false);
+	const [ editType, editTypeSet ] = useState(null);
+	const [ chosenId, chosenIdSet ] = useState(null);
+	const [ timelineData, timelineDataSet ] = useState(null);
 
 	useEffect(
 		() => {
@@ -25,22 +48,123 @@ function Profile(props) {
 		[ props.firebase ]
 	);
 
+	const handleEdit = (id, timeline) => {
+		timelineDataSet(timeline);
+		chosenIdSet(id);
+		editTypeSet('edit');
+		showEditSet(true);
+	};
+
+	const handlePublish = (id) => {
+		chosenIdSet(id);
+		editTypeSet('publish');
+		showEditSet(true);
+	};
+
+	const handleDelete = (id) => {
+		chosenIdSet(id);
+		editTypeSet('delete');
+		showEditSet(true);
+	};
+
+	const handleCloseForm = () => {
+		showEditSet(false);
+	};
+
+	const removeTimeline = (id) => {
+		timelinesSet(
+			timelines.filter((obj) => {
+				return obj.id !== id;
+			})
+		);
+	};
+
+	const replaceTimelineData = (data) => {
+		timelinesSet(timelines.map((obj) => (obj.id === data.id ? data : obj)));
+	};
+
 	return (
 		<div className="profile-page">
-			<div>
-				Email: {userData.email}
-				<br />
-				Username: {userData.username}
-			</div>
 			{timelines.message ? (
-				<div>{timelines.message}</div>
+				<NewTimeline />
 			) : timelines ? (
-				<div className="timeline-container">
-					{timelines ? timelines.map((timeline, i) => <TimelineCard data={timeline} key={i} />) : null}
+				<div className="timeline-info">
+					<div>
+						<h2>
+							<div>My Timelines </div>
+							<Link to="/create">
+								<AddBoxIcon />
+							</Link>
+						</h2>
+						{showEdit ? (
+							<div className="edit-form">
+								<div>
+									{editType === 'edit' ? (
+										<EditTimeline
+											handleCloseForm={handleCloseForm}
+											timelineId={chosenId}
+											timelineData={timelineData}
+											replaceTimelineData={replaceTimelineData}
+										/>
+									) : editType === 'publish' ? (
+										<PublishTimeline handleCloseForm={handleCloseForm} timelineId={chosenId} />
+									) : (
+										<DeleteTimeline
+											handleCloseForm={handleCloseForm}
+											timelineId={chosenId}
+											removeTimeline={removeTimeline}
+										/>
+									)}
+								</div>
+							</div>
+						) : null}
+						<div className="timeline-container">
+							{timelines ? (
+								timelines.map((timeline, i) => (
+									<div key={i}>
+										<TimelineCard data={timeline} />
+										<div className="buttons">
+											<Button
+												size="small"
+												className="edit"
+												disabled={showEdit}
+												onClick={() => {
+													handleEdit(timeline.id, timeline);
+												}}
+											>
+												<EditIcon />
+											</Button>
+											<Button
+												size="small"
+												className="edit"
+												disabled={showEdit}
+												onClick={() => handlePublish(timeline.id)}
+											>
+												<PublishIcon />
+											</Button>
+											<Button
+												size="small"
+												className="edit"
+												disabled={showEdit}
+												onClick={() => handleDelete(timeline.id)}
+											>
+												<DeleteIcon />
+											</Button>
+										</div>
+									</div>
+								))
+							) : null}
+						</div>
+					</div>
 				</div>
 			) : (
 				<div>Loading</div>
 			)}
+			<div className="user-info">
+				<h2>My Info</h2>
+				<div>USERNAME: {userData.username}</div>
+				<div>EMAIL: {userData.email}</div>
+			</div>
 		</div>
 	);
 }

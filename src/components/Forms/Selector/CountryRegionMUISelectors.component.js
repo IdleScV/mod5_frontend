@@ -24,6 +24,7 @@ function CountryRegionMUISelectors(props) {
 				label="Country"
 				value={props.country}
 				select
+				disabled={props.specs ? props.specs === 'World' : false}
 				onChange={(e) => props.handleCountry(e.target.value)}
 			>
 				{CountryRegionData.map((option, index) => (
@@ -38,6 +39,7 @@ function CountryRegionMUISelectors(props) {
 				label="Region"
 				value={props.region}
 				select
+				disabled={props.specs ? props.specs === 'Country' || props.specs === 'World' : false}
 				onChange={(e) => {
 					props.handleRegion(e.target.value);
 				}}

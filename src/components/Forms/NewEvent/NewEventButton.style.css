@@ -1,0 +1,47 @@
+.add-event-page {
+}
+
+.add-event-form {
+	z-index: 1000;
+	position: fixed;
+	width: 50%;
+	height: 70%;
+	top: 15%;
+	right: 25%;
+	font-weight: 700;
+	background-color: white;
+	padding: 10px;
+	border-radius: 15px;
+	text-align: center;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.add-event-form > div {
+	/* border: red solid 2px; */
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	width: 90%;
+	height: 100%;
+	margin: auto;
+	/* margin: 5px; */
+}
+
+.add-event-form .type {
+	/* border: red solid 2px; */
+
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+.add-event-form .type > div {
+	text-align: center;
+	width: 23%;
+	border: grey solid 2px;
+	border-radius: 4px;
+	margin: 5px;
+}
+
+.add-event-form .details {
+}

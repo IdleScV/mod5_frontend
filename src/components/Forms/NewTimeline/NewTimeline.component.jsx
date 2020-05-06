@@ -7,7 +7,7 @@ import CountryRegionMUISelectors from '../Selector/CountryRegionMUISelectors.com
 import './NewTimeline.style.css';
 
 const initialState = {
-	birthday: '2020-04-20'
+	birthday: '0000-00-00'
 };
 
 function NewTimeline(props) {
@@ -81,13 +81,13 @@ function NewTimeline(props) {
 							personSet(e.target.value);
 						}}
 					/>
-					<div className="date">
+					<div className="date-field">
 						<TextField
 							id="date"
-							label="Birth day"
 							type="date"
 							value={birthday}
 							className="input date"
+							helperText="Birthday"
 							InputLabelProps={{
 								shrink: true
 							}}
@@ -97,11 +97,11 @@ function NewTimeline(props) {
 						/>
 						<TextField
 							id="date"
-							label="Death day (optional)"
 							name="deathday"
 							type="date"
 							value={deathday}
 							className="input date"
+							helperText="Death day (optional)"
 							InputLabelProps={{
 								shrink: true
 							}}
@@ -112,6 +112,7 @@ function NewTimeline(props) {
 					</div>
 				</div>
 				<div className="location">
+					<h5>Birth Place</h5>
 					<CountryRegionMUISelectors
 						handleCountry={countrySet}
 						handleRegion={regionSet}
@@ -121,7 +122,7 @@ function NewTimeline(props) {
 				</div>
 				<Button
 					onClick={handleSubmit}
-					disabled={(title === '') | (person === '') | (birthday === initialState.birthday) | (region === '')}
+					disabled={title === '' || person === '' || birthday === initialState.birthday || region === ''}
 					variant="contained"
 					color="secondary"
 				>

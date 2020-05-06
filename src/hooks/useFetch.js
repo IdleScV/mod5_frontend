@@ -10,6 +10,7 @@ export function useFetch(url, opts) {
 			fetch(url, opts)
 				.then((response) => response.json())
 				.then((json) => {
+					// console.log(json);
 					setResponse(json);
 					setLoading(false);
 				})

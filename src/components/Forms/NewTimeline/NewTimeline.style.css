@@ -3,8 +3,18 @@
 	text-align: center;
 }
 
+.newTimeline h2 {
+	margin-top: 40px;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+	/* text-decoration: underline; */
+}
+
 .newTimeline > div {
-	/* border: solid 2px red; */
+	/* border: solid 2px rgba(0, 0, 0, 0.61); */
+	border-radius: 5px;
+	margin-top: 20px;
+	padding: 20px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .newTimeline > div > .text {
@@ -18,11 +28,18 @@
 	/* border: solid 2px blue; */
 }
 
-.newTimeline > div > .text > .date > div {
+.newTimeline > div > .text > .date-field > div {
 	margin: 10px;
 	/* border: solid 2px blue; */
 }
 
-.newTimeline > .location > div {
-	border: solid 2px red;
+.newTimeline .date-field {
+	padding: 12px;
+	border: solid 1px rgba(0, 0, 0, 0.295);
+	border-radius: 5px;
+}
+
+.newTimeline .location {
+	/* width: 500px; */
+	/* border: solid 2px blue; */
 }

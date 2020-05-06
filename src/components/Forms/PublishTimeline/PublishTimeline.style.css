@@ -1,0 +1,9 @@
+.publish-timeline {
+	/* margin-top: 30%; */
+	background-color: white;
+	border-radius: 5px;
+	/* border: red solid 2px; */
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	margin: 30% auto;
+	width: 400px;
+}

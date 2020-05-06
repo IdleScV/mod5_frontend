@@ -2,23 +2,23 @@ import React, { useState, useRef, useEffect } from 'react';
 // Components
 import Event from './Event/Event.component';
 import ErrorPage from '../ErrorPage/ErrorPage.component';
+import NewEventButton from '../Forms/NewEvent/NewEventButton';
 
 // Hook
 import { useResize } from '../../hooks/windowSize';
 import { useFetch } from '../../hooks/useFetch';
+
+// Auth
+import { withAuthorization } from '../../authentication/Session';
 
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Slider } from '@material-ui/core';
 import './Timeline.style.css';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import AddIcon from '@material-ui/icons/Add';
 
 //URL
 import { URL } from '../../urlEnv/index';
-
-// Data
-// import { timelineData } from '../../data/index';
 
 // React Dom
 import { useHistory } from 'react-router-dom';
@@ -40,8 +40,8 @@ function Timeline(props) {
 
 	// State
 	let [ filters, filtersSet ] = useState([]);
-	let [ ageRange, ageRangeSet ] = useState([ 0, 50 ]);
-
+	let [ ageRange, ageRangeSet ] = useState([ 0, null ]);
+	let [ eventData, eventDataSet ] = useState(null);
 	// Style Hook
 	const inlineStyles = useStyles();
 
@@ -62,10 +62,6 @@ function Timeline(props) {
 		const { username } = user;
 
 		const { birthday, deathday } = person;
-
-		// timeline hard coded data
-		// let { timeline_data_1 } = timelineData;
-		// let { events } = timeline_data_1;
 
 		// Button Color
 		const buttonTypes = [
@@ -111,7 +107,11 @@ function Timeline(props) {
 			return findYear(event.date) - findYear(birthday);
 		};
 		const filterEventsByAge = (event_data) => {
-			return event_data.filter((event) => currentAge(event) >= ageRange[0] && currentAge(event) <= ageRange[1]);
+			if (ageRange[1]) {
+				return event_data.filter((event) => currentAge(event) >= ageRange[0] && currentAge(event) <= ageRange[1]);
+			} else {
+				return event_data;
+			}
 		};
 
 		const handleSlider = (e, newValue) => {
@@ -133,15 +133,19 @@ function Timeline(props) {
 
 		// Line-Marker
 		const lineMarkers = () => {
-			let distance = ageRange[1] - ageRange[0];
+			let distance = '';
+			ageRange[1]
+				? (distance = ageRange[1] - ageRange[0])
+				: deathday ? (distance = deathAge() - ageRange[0]) : (distance = currentAgeToDate() - ageRange[0]);
+
 			let eqDistance = distance / 10;
 			let arr = [];
 			for (let i = 1; i < 10; i++) {
-				arr.push(eqDistance * i);
+				arr.push(Math.floor(eqDistance * i));
 			}
 
 			let currentRange = ageRange[1] - ageRange[0];
-			return arr.map((num) => (num + parseInt(findYear(birthday)) + ageRange[0]).toString().substr(2));
+			return arr.map((num) => (num + parseInt(findYear(birthday)) + ageRange[0]).toString());
 		};
 
 		return (
@@ -152,9 +156,16 @@ function Timeline(props) {
 					</Button>
 
 					<h3 className="title">{title}</h3>
-					<Button color="primary">
-						<AddIcon />
-					</Button>
+					<div className="header-item">
+						<NewEventButton
+							maker_id={user.firebase_id}
+							firebase_id={props.firebase.auth.W}
+							events={events}
+							eventData={eventData}
+							eventDataSet={eventDataSet}
+							timelineId={timelineId}
+						/>
+					</div>
 				</div>
 				<div className="filters">
 					{buttonTypes.map((button, i) => (
@@ -173,7 +184,7 @@ function Timeline(props) {
 
 					<Slider
 						defaultValue={[ 0, deathday ? deathAge() : currentAgeToDate() ]}
-						value={ageRange}
+						value={ageRange[1] ? ageRange : deathday ? [ 0, deathAge() ] : [ 0, currentAgeToDate() ]}
 						onChange={handleSlider}
 						aria-labelledby="range-slider"
 						step={1}
@@ -183,14 +194,16 @@ function Timeline(props) {
 					/>
 				</div>
 				<div className="timeline-box">
-					<div className="birth year">{parseInt(findYear(birthday)) + ageRange[0]} BCE</div>
+					<div className="birth year">{parseInt(findYear(birthday)) + ageRange[0]}</div>
 
 					<div className="events">
 						<div className="timeline-line">
-							{lineMarkers().map((marker, i) => <div className="timeline-markers" key={i}>{`'${marker}`}</div>)}
+							{lineMarkers().map((marker, i) => <div className="timeline-markers" key={i}>{`${marker}`}</div>)}
 						</div>
 						<div className="event-container">
-							{filterEventsByAge(filterEventsByCategory(sortEvents(events))).map((event, i) => (
+							{filterEventsByAge(
+								filterEventsByCategory(sortEvents(eventData ? eventData : events))
+							).map((event, i) => (
 								// {filterEventsByAge(sortEvents(events)).map((event, i) => (
 								<Event
 									event_data={event}
@@ -198,20 +211,18 @@ function Timeline(props) {
 									index={i}
 									currentAge={findYear(event.date) - findYear(birthday)}
 									birthyear={findYear(birthday)}
-									ageRange={ageRange}
+									ageRange={ageRange[1] ? ageRange : deathday ? [ 0, deathAge() ] : [ 0, currentAgeToDate() ]}
 									xAdjustment={width - 690}
 									filters={filters}
 								/>
 							))}
 						</div>
 					</div>
-					{deathday !== null ? (
-						// <div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
-						<div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
-					) : (
-						// <div className="present year">Present Day: {`${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`}</div>
-						<div className="death year">{parseInt(findYear(birthday)) + ageRange[1]} BCE</div>
-					)}
+
+					<div className="death year">
+						{parseInt(findYear(birthday)) +
+							(ageRange[1] ? ageRange[1] : deathday ? deathAge() : currentAgeToDate())}
+					</div>
 				</div>
 			</div>
 		);
@@ -220,4 +231,8 @@ function Timeline(props) {
 	}
 }
 
-export default Timeline;
+// export default Timeline;
+
+const authCondition = (authUser) => !!authUser;
+
+export default withAuthorization(authCondition)(Timeline);

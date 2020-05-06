@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }) {
+function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters, deathday, deathAge, ageToDate }) {
 	let [ clicked, clickedSet ] = useState(false);
 	let [ boxLocation, boxLocationSet ] = useState('left');
 	let [ boxPercentage, boxPercentageSet ] = useState('');
@@ -43,8 +43,8 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters }
 		() => {
 			const findLocationPercentage = () => {
 				let percent = '';
+
 				if (currentAge > ageRange[0] || currentAge < ageRange[1]) {
-					// percent = ((currentAge - ageRange[0] / ageRange[1] - ageRange[0]) * 100).toFixed(1);
 					percent = (currentAge - ageRange[0]) / (ageRange[1] - ageRange[0]) * 100;
 				} else {
 					percent = '';
