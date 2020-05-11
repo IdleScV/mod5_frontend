@@ -7,3 +7,14 @@
 	margin: 30% auto;
 	width: 400px;
 }
+.publish-timeline h3 {
+	/* border: red solid 2px; */
+	padding: 10px;
+}
+.publish-timeline Button {
+	/* border: red solid 2px; */
+	margin: -10px 10px 10px 10px;
+}
+
+.publish-timeline button {
+}

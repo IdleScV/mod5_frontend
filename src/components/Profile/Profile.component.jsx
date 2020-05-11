@@ -19,8 +19,10 @@ import './Profile.style.css';
 import { Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PublishIcon from '@material-ui/icons/Publish';
+
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import PublicIcon from '@material-ui/icons/Public';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 function Profile(props) {
 	const [ userData, userDataSet ] = useState([]);
@@ -44,6 +46,10 @@ function Profile(props) {
 			};
 			findUser();
 			fetchProfile();
+
+			return function cleanUp() {
+				props.firebase.user(props.firebase.auth.W).off();
+			};
 		},
 		[ props.firebase ]
 	);
@@ -107,7 +113,11 @@ function Profile(props) {
 											replaceTimelineData={replaceTimelineData}
 										/>
 									) : editType === 'publish' ? (
-										<PublishTimeline handleCloseForm={handleCloseForm} timelineId={chosenId} />
+										<PublishTimeline
+											handleCloseForm={handleCloseForm}
+											timelineId={chosenId}
+											replaceTimelineData={replaceTimelineData}
+										/>
 									) : (
 										<DeleteTimeline
 											handleCloseForm={handleCloseForm}
@@ -127,6 +137,7 @@ function Profile(props) {
 											<Button
 												size="small"
 												className="edit"
+												variant="contained"
 												disabled={showEdit}
 												onClick={() => {
 													handleEdit(timeline.id, timeline);
@@ -137,14 +148,18 @@ function Profile(props) {
 											<Button
 												size="small"
 												className="edit"
+												variant="contained"
+												color="primary"
 												disabled={showEdit}
 												onClick={() => handlePublish(timeline.id)}
 											>
-												<PublishIcon />
+												{timeline.status === 'edit' ? <VisibilityOffIcon /> : <PublicIcon />}
 											</Button>
 											<Button
 												size="small"
 												className="edit"
+												variant="contained"
+												color="secondary"
 												disabled={showEdit}
 												onClick={() => handleDelete(timeline.id)}
 											>

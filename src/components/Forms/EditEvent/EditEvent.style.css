@@ -1,0 +1,42 @@
+.edit-event {
+}
+
+.edit-event > .form {
+	position: absolute;
+
+	/* border: red 3px solid; */
+	width: 500px;
+	background-color: white;
+	top: 10%;
+	left: 30px;
+	padding: 20px;
+	border-radius: 10px;
+	z-index: 5000;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.edit-event > .form > .submit {
+	/* border: red 3px solid; */
+
+	margin: 10px auto -5px;
+	width: 100px;
+}
+.edit-event > .form > div {
+	/* border: red 2px solid; */
+	margin: 5px;
+}
+
+.edit-event > .form > h4 {
+	margin-top: 0px;
+	/* border: red 2px solid; */
+}
+
+.edit-event button {
+	/* border: red 2px solid; */
+	margin: 0 0px -10px 0px;
+}
+
+.edit-event .buttons {
+	display: flex;
+	justify-content: space-between;
+	/* border: red 2px solid; */
+}

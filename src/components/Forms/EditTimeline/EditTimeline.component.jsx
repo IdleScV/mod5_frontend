@@ -154,14 +154,20 @@ function EditTimeline({ handleCloseForm, timelineId, timelineData, replaceTimeli
 						</TextField>
 					</form>
 				</div>
-				<Button
-					onClick={handleSubmit}
-					disabled={title === '' || person === '' || birthday === '0000-00-00'}
-					variant="contained"
-					color="secondary"
-				>
-					Submit
-				</Button>
+				<div>
+					<Button
+						style={{ margin: '5px' }}
+						onClick={handleSubmit}
+						disabled={title === '' || person === '' || birthday === '0000-00-00'}
+						variant="contained"
+						color="primary"
+					>
+						Submit
+					</Button>
+					<Button style={{ margin: '5px' }} onClick={handleCloseForm} variant="contained" color="secondary">
+						Cancel
+					</Button>
+				</div>
 			</FormControl>
 		</div>
 	);

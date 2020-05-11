@@ -50,6 +50,18 @@ class SignInFormBase extends React.Component {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
+	guestSignIn = (event) => {
+		this.props.firebase
+			.doSignInWithEmailAndPassword('guest@gmail.com', '123456')
+			.then(() => {
+				this.setState({ ...INITIAL_STATE });
+				this.props.history.push(ROUTES.HOME);
+			})
+			.catch((error) => {
+				this.setState({ error });
+			});
+	};
+
 	render() {
 		const { email, password, error } = this.state;
 		const isInvalid = password === '' || email === '';
@@ -75,10 +87,12 @@ class SignInFormBase extends React.Component {
 						type="password"
 					/>
 					<br />
-					<Button type="submit" disabled={isInvalid}>
-						Sign In
-					</Button>
-
+					<div className="buttons">
+						<Button type="submit" disabled={isInvalid}>
+							Sign In
+						</Button>
+						<Button onClick={this.guestSignIn}>Guest Login</Button>
+					</div>
 					{error ? <p>{error.message}</p> : null}
 				</form>
 				<div className="xtralinks">

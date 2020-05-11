@@ -124,7 +124,7 @@ function NewTimeline(props) {
 					onClick={handleSubmit}
 					disabled={title === '' || person === '' || birthday === initialState.birthday || region === ''}
 					variant="contained"
-					color="secondary"
+					color="primary"
 				>
 					Submit
 				</Button>

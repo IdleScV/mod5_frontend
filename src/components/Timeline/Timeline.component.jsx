@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 // Components
 import Event from './Event/Event.component';
 import ErrorPage from '../ErrorPage/ErrorPage.component';
 import NewEventButton from '../Forms/NewEvent/NewEventButton';
+import EditEvent from '../Forms/EditEvent/EditEvent.component';
 
 // Hook
 import { useResize } from '../../hooks/windowSize';
@@ -16,7 +17,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Slider } from '@material-ui/core';
 import './Timeline.style.css';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+import CloseIcon from '@material-ui/icons/Close';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
 //URL
 import { URL } from '../../urlEnv/index';
 
@@ -42,6 +49,14 @@ function Timeline(props) {
 	let [ filters, filtersSet ] = useState([]);
 	let [ ageRange, ageRangeSet ] = useState([ 0, null ]);
 	let [ eventData, eventDataSet ] = useState(null);
+	let [ selectedEvent, selectedEventSet ] = useState(null);
+	let [ showDetailBox, showDetailBoxSet ] = useState(false);
+	let [ showEditBox, showEditBoxSet ] = useState(false);
+	let [ deleteConfirm, deleteConfirmSet ] = useState(false);
+
+	// TEMPORARY LIKE STATE
+	let [ like, likeSet ] = useState(false);
+
 	// Style Hook
 	const inlineStyles = useStyles();
 
@@ -115,8 +130,8 @@ function Timeline(props) {
 		};
 
 		const handleSlider = (e, newValue) => {
-			// Set min difference to 10
-			if (newValue[1] - newValue[0] >= 10 && newValue !== ageRange) {
+			// Set min difference to 5
+			if (newValue[1] - newValue[0] >= 1 && newValue !== ageRange) {
 				ageRangeSet(newValue);
 			}
 		};
@@ -141,11 +156,66 @@ function Timeline(props) {
 			let eqDistance = distance / 10;
 			let arr = [];
 			for (let i = 1; i < 10; i++) {
-				arr.push(Math.floor(eqDistance * i));
+				// arr.push((eqDistance * i).toFixed(1));
+
+				arr.push(eqDistance * i);
 			}
 
 			let currentRange = ageRange[1] - ageRange[0];
-			return arr.map((num) => (num + parseInt(findYear(birthday)) + ageRange[0]).toString());
+			let markers = arr.map((num) => Math.floor(num + parseInt(findYear(birthday)) + ageRange[0]).toString());
+			let uniqueMarkers = [ ...new Set(markers) ];
+
+			if (distance >= 10) {
+				return uniqueMarkers;
+			} else {
+				uniqueMarkers.shift();
+				return uniqueMarkers;
+			}
+		};
+
+		// Edit Event
+		const handleEdit = () => {
+			showEditBoxSet(true);
+		};
+
+		// Delete Event
+		const handleDelete = (event_id) => {
+			const deleteEvent = (eventId) => {
+				if (eventData) {
+					eventDataSet(eventData.filter((event) => event.id !== eventId));
+				} else {
+					eventDataSet(events.filter((event) => event.id !== eventId));
+				}
+			};
+
+			fetch(URL + 'ets/' + timelineId, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ eventId: event_id })
+			})
+				.then((res) => res.json())
+				.then((json) => deleteEvent(event_id), showDetailBoxSet(false));
+		};
+
+		// update Event
+		const updateEventData = (data) => {
+			if (eventData) {
+				eventDataSet(eventData.map((event) => (event.id === data.id ? data : event)));
+			} else {
+				eventDataSet(events.map((event) => (event.id === data.id ? data : event)));
+			}
+			selectedEventSet(data);
+		};
+
+		// find date as percentage of year
+		const findDatePercent = (date) => {
+			let month = date.split('-')[1];
+			let day = date.split('-')[2];
+			let greater = month / 12;
+
+			let lesser = day / 365;
+
+			return greater + lesser;
 		};
 
 		return (
@@ -155,7 +225,7 @@ function Timeline(props) {
 						<ArrowBackIcon />
 					</Button>
 
-					<h3 className="title">{title}</h3>
+					<h2 className="title">{title}</h2>
 					<div className="header-item">
 						<NewEventButton
 							maker_id={user.firebase_id}
@@ -165,6 +235,8 @@ function Timeline(props) {
 							eventDataSet={eventDataSet}
 							timelineId={timelineId}
 						/>
+
+						<div className="author">Made by: {username}</div>
 					</div>
 				</div>
 				<div className="filters">
@@ -193,12 +265,90 @@ function Timeline(props) {
 						valueLabelDisplay="auto"
 					/>
 				</div>
+				{showDetailBox ? (
+					<div className="description-box">
+						<div className="header">
+							<Button
+								onClick={() => {
+									likeSet(!like);
+								}}
+							>
+								{like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+							</Button>
+							<h3>{selectedEvent.snippet}</h3>
+
+							<Button>
+								<CloseIcon
+									onClick={() => {
+										showDetailBoxSet(false);
+										likeSet(false);
+									}}
+								/>
+							</Button>
+						</div>
+						<div className="text">{selectedEvent.details}</div>
+						{selectedEvent.imageUrl ? (
+							<div>
+								<img
+									className="detail-image"
+									src={selectedEvent.imageUrl}
+									alt={selectedEvent.imageText ? selectedEvent.imageText : ''}
+								/>
+								{selectedEvent.imageText ? <p className="image-details">{selectedEvent.imageText}</p> : null}
+							</div>
+						) : null}
+						{showEditBox ? (
+							<EditEvent
+								event_data={selectedEvent}
+								firebase_id={props.firebase.auth.W}
+								updateEventData={updateEventData}
+								showEditBoxSet={showEditBoxSet}
+								showDetailBoxSet={showDetailBoxSet}
+							/>
+						) : null}
+						{props.firebase.auth.W === user.firebase_id ? (
+							<div className="edit-button">
+								<Button onClick={handleEdit}>
+									<EditIcon />
+								</Button>
+								<Button onClick={() => deleteConfirmSet(true)}>
+									<DeleteIcon />
+								</Button>
+								{deleteConfirm ? (
+									<div>
+										<div>Are you Sure?</div>
+										<Button
+											onClick={() => {
+												handleDelete(selectedEvent.id);
+												deleteConfirmSet(false);
+											}}
+										>
+											<CheckIcon />
+										</Button>
+										<Button
+											onClick={() => {
+												deleteConfirmSet(false);
+											}}
+										>
+											<NotInterestedIcon />
+										</Button>
+									</div>
+								) : null}
+							</div>
+						) : null}
+						<div className="date">{selectedEvent.date}</div>
+					</div>
+				) : null}
 				<div className="timeline-box">
 					<div className="birth year">{parseInt(findYear(birthday)) + ageRange[0]}</div>
 
 					<div className="events">
 						<div className="timeline-line">
-							{lineMarkers().map((marker, i) => <div className="timeline-markers" key={i}>{`${marker}`}</div>)}
+							{lineMarkers() ? (
+								lineMarkers().map((marker, i) => <div className="timeline-markers" key={i}>{`${marker}`}</div>)
+							) : (
+								<div className="timeline-markers">Halfway</div>
+							)}
 						</div>
 						<div className="event-container">
 							{filterEventsByAge(
@@ -209,11 +359,14 @@ function Timeline(props) {
 									event_data={event}
 									key={i}
 									index={i}
-									currentAge={findYear(event.date) - findYear(birthday)}
+									currentAge={findYear(event.date) - findYear(birthday) + findDatePercent(event.date)}
 									birthyear={findYear(birthday)}
 									ageRange={ageRange[1] ? ageRange : deathday ? [ 0, deathAge() ] : [ 0, currentAgeToDate() ]}
-									xAdjustment={width - 690}
+									xAdjustment={width - 665}
 									filters={filters}
+									selectedEventSet={selectedEventSet}
+									showDetailBoxSet={showDetailBoxSet}
+									birthday={birthday}
 								/>
 							))}
 						</div>

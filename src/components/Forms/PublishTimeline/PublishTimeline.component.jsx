@@ -9,9 +9,9 @@ import { useFetch } from '../../../hooks/useFetch';
 // style
 import { Button } from '@material-ui/core';
 import './PublishTimeline.style.css';
-import CloseIcon from '@material-ui/icons/Close';
+import CancelIcon from '@material-ui/icons/Cancel';
 
-function PublishTimeline({ handleCloseForm, timelineId }) {
+function PublishTimeline({ handleCloseForm, timelineId, replaceTimelineData }) {
 	const [ response, loading, hasError ] = useFetch(URL + 'timelines/' + timelineId);
 
 	const handleSubmit = (string) => {
@@ -24,16 +24,16 @@ function PublishTimeline({ handleCloseForm, timelineId }) {
 
 			fetch(URL + 'timelines/' + timelineId, method)
 				.then((response) => response.json())
-				.then((json) => handleCloseForm());
+				.then((json) => (handleCloseForm(), replaceTimelineData(json)));
 		} else if (string === 'unpublish') {
 			let method = {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ status: 'done' })
+				body: JSON.stringify({ status: 'edit' })
 			};
 			fetch(URL + 'timelines/' + timelineId, method)
 				.then((response) => response.json())
-				.then((json) => handleCloseForm());
+				.then((json) => (handleCloseForm(), replaceTimelineData(json)));
 		}
 	};
 
@@ -42,17 +42,21 @@ function PublishTimeline({ handleCloseForm, timelineId }) {
 			{response ? response.status === 'edit' ? (
 				<div>
 					<h3>This Timeline is currently Private</h3>
-					<Button onClick={() => handleSubmit('publish')}>Publish</Button>
-					<Button onClick={handleCloseForm}>
-						<CloseIcon />
+					<Button onClick={() => handleSubmit('publish')} variant="contained" color="primary">
+						Publish
+					</Button>
+					<Button onClick={handleCloseForm} variant="contained" color="secondary">
+						<CancelIcon />
 					</Button>
 				</div>
 			) : response.status === 'done' ? (
 				<div>
 					<h3>This Timeline is currently Public</h3>
-					<Button onClick={() => handleSubmit('unpublish')}>Un-Publish</Button>
-					<Button onClick={handleCloseForm}>
-						<CloseIcon />
+					<Button onClick={() => handleSubmit('unpublish')} variant="contained" color="primary">
+						Un-Publish
+					</Button>
+					<Button onClick={handleCloseForm} variant="contained" color="secondary">
+						<CancelIcon />
 					</Button>
 				</div>
 			) : loading ? (

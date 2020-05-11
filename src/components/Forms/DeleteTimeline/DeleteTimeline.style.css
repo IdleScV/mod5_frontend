@@ -6,3 +6,21 @@
 	margin: 30% auto;
 	width: 400px;
 }
+
+.delete-timeline > div .text {
+	font-weight: 600;
+	padding: 10px;
+	/* border: solid red 2px; */
+}
+
+.delete-timeline button {
+	/* border: solid red 2px; */
+	margin: 0px 10px 10px 10px;
+}
+
+.delete-timeline > .confirmation > div {
+	/* border: solid red 2px; */
+	/* font-size: 10px; */
+	/* padding: 10px; */
+	margin: 10px 10px 10px 10px;
+}

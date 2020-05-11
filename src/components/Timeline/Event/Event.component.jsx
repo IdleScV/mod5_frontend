@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
-function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters, deathday, deathAge, ageToDate }) {
+function Event({
+	event_data,
+	index,
+	currentAge,
+	ageRange,
+	xAdjustment,
+	filters,
+	selectedEventSet,
+
+	showDetailBoxSet
+}) {
 	let [ clicked, clickedSet ] = useState(false);
 	let [ boxLocation, boxLocationSet ] = useState('left');
 	let [ boxPercentage, boxPercentageSet ] = useState('');
 	// let { image, link, location, reference, snippet, types, user } = event_data;
 	// console.log(currentAge);
+
 	let {
 		date,
 		details,
@@ -91,12 +102,14 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters, 
 			id={clicked ? 'selected' : ''}
 			onClick={() => {
 				clickedSet(!clicked);
+				selectedEventSet(event_data);
+				showDetailBoxSet(true);
 			}}
 			style={{ top: boxPercentage }}
 		>
 			{boxLocation === 'right' ? (
 				<div className={`event-line ${boxLocation}`} style={{}}>
-					{`${xAdjustment > 0 ? '-'.repeat(xAdjustment / 15.5) : ''}`}
+					{`${xAdjustment > 0 ? '-'.repeat(xAdjustment / 16) : ''}`}
 				</div>
 			) : (
 				<div className={`event-line ${boxLocation}`} style={{}}>
@@ -107,11 +120,10 @@ function Event({ event_data, index, currentAge, ageRange, xAdjustment, filters, 
 			<div className="event-labels">
 				<div className="snippet-box">{snippet}</div>
 				<div className="event-right-label">
-					<div className="current-age">{currentAge} Y </div>
+					<div className="current-age">age {Math.floor(currentAge)}</div>
 					<div className="label-types">{showType(types)}</div>
 				</div>
 			</div>
-			{!clicked ? <div /> : <div className="details-box">{details}</div>}
 		</div>
 	);
 }

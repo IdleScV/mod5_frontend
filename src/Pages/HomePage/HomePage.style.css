@@ -1,0 +1,39 @@
+.homepage {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 40px;
+	/* border: solid red 2px; */
+	height: 70vh;
+	text-align: center;
+}
+
+.homepage .title {
+	z-index: 100;
+	/* border: solid red 2px; */
+	font-size: 300px;
+	font-family: 'Amatic SC', cursive;
+
+	margin: auto;
+}
+.homepage .gif {
+	z-index: 50;
+	/* border: solid red 2px; */
+	margin: -300px auto -120px auto;
+	width: 500px;
+	object-fit: contain;
+}
+
+.homepage .text {
+	z-index: 100;
+}
+
+.homepage a {
+	/* border: solid red 2px; */
+	color: blue;
+	transition: color 0.2s;
+}
+
+.homepage a:hover {
+	color: red;
+}

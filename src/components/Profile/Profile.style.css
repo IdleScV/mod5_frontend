@@ -20,7 +20,7 @@
 
 /* * Timeline Box */
 .timeline-info {
-	border: solid blue 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 	border-radius: 10px;
 	margin-right: 10px;
 	display: flex;
@@ -72,12 +72,14 @@
 }
 
 .timeline-container .buttons > Button {
-	border: 1px solid #000000;
+	margin-left: 3px;
+	margin-right: 3px;
+	/* border: 1px solid #000000; */
 }
 
 .user-info {
 	/* border: solid red 2px; */
-	border: solid blue 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 	border-radius: 10px;
 	margin-left: 10px;
 	padding-left: 10px;
