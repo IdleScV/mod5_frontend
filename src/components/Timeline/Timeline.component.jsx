@@ -77,7 +77,7 @@ function Timeline(props) {
 		const { username } = user;
 
 		const { birthday, deathday } = person;
-		console.log(events);
+
 		// Button Color
 		const buttonTypes = [
 			{ name: 'Major', color: 'secondary' },
@@ -217,7 +217,8 @@ function Timeline(props) {
 
 			return greater + lesser;
 		};
-
+		console.log(events);
+		console.log('Got to Timeline Component');
 		return (
 			<div className="timeline-component" ref={componentRef}>
 				<div className="header">
