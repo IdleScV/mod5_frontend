@@ -18,6 +18,7 @@ function NewTimeline(props) {
 	const [ userData, userDataSet ] = useState([]);
 	const [ country, countrySet ] = useState('');
 	const [ region, regionSet ] = useState('');
+	const [ imageURL, imageURLSet ] = useState('');
 
 	useEffect(
 		() => {
@@ -44,7 +45,8 @@ function NewTimeline(props) {
 			firebase_id: props.firebase.auth.W,
 			username: userData.username,
 			country: country[0],
-			region: region
+			region: region,
+			imageURL: imageURL
 		};
 
 		fetch(URL + 'timelines', {
@@ -59,6 +61,7 @@ function NewTimeline(props) {
 	return (
 		<div className="newTimeline">
 			<h2>Make a New Timeline</h2>
+			<h4>{userData.email === 'guest@gmail.com' ? "As a guest, your timelines can't be published" : null}</h4>
 			<FormControl>
 				<div className="text">
 					<TextField
@@ -79,6 +82,17 @@ function NewTimeline(props) {
 						value={person}
 						onChange={(e) => {
 							personSet(e.target.value);
+						}}
+					/>
+					<TextField
+						label="Picture (image URL)"
+						name="image URL"
+						variant="outlined"
+						type="url"
+						className="input"
+						value={imageURL}
+						onChange={(e) => {
+							imageURLSet(e.target.value);
 						}}
 					/>
 					<div className="date-field">

@@ -88,10 +88,12 @@ class SignInFormBase extends React.Component {
 					/>
 					<br />
 					<div className="buttons">
-						<Button type="submit" disabled={isInvalid}>
+						<Button type="submit" variant="contained" color={isInvalid ? 'default' : 'primary'}>
 							Sign In
 						</Button>
-						<Button onClick={this.guestSignIn}>Guest Login</Button>
+						<Button onClick={this.guestSignIn} variant="contained">
+							Guest Login
+						</Button>
 					</div>
 					{error ? <p>{error.message}</p> : null}
 				</form>

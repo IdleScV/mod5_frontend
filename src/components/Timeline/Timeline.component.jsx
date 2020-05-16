@@ -225,7 +225,9 @@ function Timeline(props) {
 						<ArrowBackIcon />
 					</Button>
 
-					<h2 className="title">{title}</h2>
+					<h2 className="title">
+						{title} : {person.name}
+					</h2>
 					<div className="header-item">
 						<NewEventButton
 							maker_id={user.firebase_id}

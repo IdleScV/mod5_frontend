@@ -21,6 +21,13 @@ h4 {
 	text-align: center;
 }
 
+.signinpage .buttons {
+	margin-top: 10px;
+	/* border: solid red 2px; */
+	display: flex;
+	justify-content: space-evenly;
+}
+
 .xtralinks a {
 	padding: 5px 5px;
 	border-radius: 5px;

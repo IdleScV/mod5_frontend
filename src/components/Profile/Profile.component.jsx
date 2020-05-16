@@ -150,7 +150,7 @@ function Profile(props) {
 												className="edit"
 												variant="contained"
 												color="primary"
-												disabled={showEdit}
+												disabled={showEdit || userData.email === 'guest@gmail.com'}
 												onClick={() => handlePublish(timeline.id)}
 											>
 												{timeline.status === 'edit' ? <VisibilityOffIcon /> : <PublicIcon />}
