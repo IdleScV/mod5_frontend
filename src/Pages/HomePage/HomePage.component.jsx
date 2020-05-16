@@ -2,6 +2,10 @@ import React from 'react';
 import { AuthUserContext } from '../../authentication/Session';
 import { Link } from 'react-router-dom';
 import './HomePage.style.css';
+
+// ROUTES
+import * as AUTHROUTES from '../../constants/routes';
+import { ROUTES } from '../../urlEnv';
 function HomePage(props) {
 	return (
 		<div className="homepage">
@@ -17,8 +21,9 @@ function HomePage(props) {
 						) : (
 							<div>
 								<h2>
-									<Link to="/signup">Create an Account </Link> or <Link to="/signin">Signin</Link> to View &
-									Create your own <Link to="/timelines">Timelines</Link>!
+									<Link to={AUTHROUTES.SIGN_UP}>Create an Account </Link> or{' '}
+									<Link to={AUTHROUTES.SIGN_IN}>Signin</Link> to View & Create your own{' '}
+									<Link to={ROUTES.TIMELINES}>Timelines</Link>!
 								</h2>
 							</div>
 						)}

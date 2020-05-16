@@ -8,10 +8,13 @@ import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from 
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Authentication
-import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../../authentication/SignOut';
 import { AuthUserContext } from '../../authentication/Session';
 import { withFirebase } from '../../authentication/Firebase';
+
+// Routes
+import { ROUTES } from '../../urlEnv';
+import * as AUTHROUTES from '../../constants/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -61,16 +64,16 @@ function Navbar(props) {
 									className="menu-dropdown"
 								>
 									<MenuItem onClick={handleClose}>
-										<Link to="/">Home</Link>
+										<Link to={ROUTES.HOME}>Home</Link>
 									</MenuItem>
 									<MenuItem onClick={handleClose}>
-										<Link to="/timelines">Timelines</Link>
+										<Link to={ROUTES.TIMELINES}>Timelines</Link>
 									</MenuItem>
 									<MenuItem onClick={handleClose}>
-										<Link to="/profile">Profile</Link>
+										<Link to={ROUTES.PROFILE}>Profile</Link>
 									</MenuItem>
 									<MenuItem onClick={handleClose}>
-										<Link to="/create">Create</Link>
+										<Link to={ROUTES.CREATE}>Create</Link>
 									</MenuItem>
 									<MenuItem>
 										<SignOutButton />
@@ -86,34 +89,34 @@ function Navbar(props) {
 									className="menu-dropdown"
 								>
 									<MenuItem onClick={handleClose}>
-										<Link to="/">Home</Link>
+										<Link to={ROUTES.HOME}>Home</Link>
 									</MenuItem>
 									<MenuItem onClick={handleClose}>
-										<Link to="/timelines">Timelines</Link>
+										<Link to={ROUTES.TIMELINES}>Timelines</Link>
 									</MenuItem>
 
 									<MenuItem>
-										<Link to={ROUTES.SIGN_IN}>Sign In</Link>
+										<Link to={AUTHROUTES.SIGN_IN}>Sign In</Link>
 									</MenuItem>
 									<MenuItem>
-										<Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+										<Link to={AUTHROUTES.SIGN_UP}>Sign Up</Link>
 									</MenuItem>
 								</Menu>
 							)}
 					</AuthUserContext.Consumer>
 					<div className="title">
 						<Switch>
-							<Route exact path="/">
+							<Route exact path={ROUTES.HOME}>
 								HOME
 							</Route>
-							<Route exact path="/timelines">
+							<Route exact path={ROUTES.TIMELINES}>
 								BROWSE
 							</Route>
-							<Route exact path="/profile">
+							<Route exact path={ROUTES.PROFILE}>
 								PROFILE
 							</Route>
-							<Route path="/timeline/:id">TIMELINE</Route>
-							<Route exact path="/create">
+							<Route path={ROUTES.TIMELINE}>TIMELINE</Route>
+							<Route exact path={ROUTES.CREATE}>
 								CREATE
 							</Route>
 						</Switch>

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Routes
+import { ROUTES } from '../../../urlEnv/index';
+
 import './TimelineCard.style.css';
 
 function TimelineCard({ data }) {
@@ -10,7 +13,7 @@ function TimelineCard({ data }) {
 	return (
 		<div className="timeline-card-frame">
 			<Link
-				to={`/timeline/${id}`}
+				to={ROUTES.TIMELINEGO + id}
 				style={{ textDecoration: 'none' }}
 				onMouseEnter={() => detailSet(true)}
 				onMouseLeave={() => detailSet(false)}
