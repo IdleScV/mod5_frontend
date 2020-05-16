@@ -77,7 +77,7 @@ function Timeline(props) {
 		const { username } = user;
 
 		const { birthday, deathday } = person;
-
+		console.log(events);
 		// Button Color
 		const buttonTypes = [
 			{ name: 'Major', color: 'secondary' },
