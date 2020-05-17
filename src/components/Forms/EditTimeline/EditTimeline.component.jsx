@@ -12,7 +12,10 @@ const getRegions = (country) => {
 		return [];
 	}
 	return country[2].split('|').map((regionPair) => {
-		let [ regionName, regionShortCode = null ] = regionPair.split('~');
+		let [
+			regionName
+			// regionShortCode = null
+		] = regionPair.split('~');
 		return regionName;
 	});
 };

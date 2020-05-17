@@ -10,7 +10,11 @@ function HomePage(props) {
 	return (
 		<div className="homepage">
 			<h1 className="title">PATH</h1>
-			<img className="gif" src="https://cdn.dribbble.com/users/1539152/screenshots/3296884/timeline.gif" />
+			<img
+				className="gif"
+				src="https://cdn.dribbble.com/users/1539152/screenshots/3296884/timeline.gif"
+				alt="timelinegif"
+			/>
 			<div className="text">
 				<AuthUserContext.Consumer>
 					{(authUser) =>

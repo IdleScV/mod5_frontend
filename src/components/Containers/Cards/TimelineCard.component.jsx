@@ -8,7 +8,13 @@ import './TimelineCard.style.css';
 
 function TimelineCard({ data }) {
 	const [ detail, detailSet ] = useState(false);
-	const { title, id, person: { name: person }, user: { username: creator }, picture } = data;
+	const {
+		title,
+		id,
+		person: { name: person },
+		// user: { username: creator },
+		picture
+	} = data;
 
 	return (
 		<div className="timeline-card-frame">

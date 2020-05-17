@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 // links
 import { URL } from '../../../urlEnv';
@@ -14,6 +14,11 @@ import CancelIcon from '@material-ui/icons/Cancel';
 function PublishTimeline({ handleCloseForm, timelineId, replaceTimelineData }) {
 	const [ response, loading, hasError ] = useFetch(URL + 'timelines/' + timelineId);
 
+	const runResults = (data) => {
+		handleCloseForm();
+		replaceTimelineData(data);
+	};
+
 	const handleSubmit = (string) => {
 		if (string === 'publish') {
 			let method = {
@@ -24,7 +29,7 @@ function PublishTimeline({ handleCloseForm, timelineId, replaceTimelineData }) {
 
 			fetch(URL + 'timelines/' + timelineId, method)
 				.then((response) => response.json())
-				.then((json) => (handleCloseForm(), replaceTimelineData(json)));
+				.then((json) => runResults(json));
 		} else if (string === 'unpublish') {
 			let method = {
 				method: 'PATCH',
@@ -33,7 +38,7 @@ function PublishTimeline({ handleCloseForm, timelineId, replaceTimelineData }) {
 			};
 			fetch(URL + 'timelines/' + timelineId, method)
 				.then((response) => response.json())
-				.then((json) => (handleCloseForm(), replaceTimelineData(json)));
+				.then((json) => runResults(json));
 		}
 	};
 

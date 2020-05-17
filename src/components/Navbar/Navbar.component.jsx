@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // CSS
 import './Navbar.style.css';
 import { Link, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Menu, MenuItem } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Authentication
 import SignOutButton from '../../authentication/SignOut';
 import { AuthUserContext } from '../../authentication/Session';
-import { withFirebase } from '../../authentication/Firebase';
 
 // Routes
 import { ROUTES } from '../../urlEnv';

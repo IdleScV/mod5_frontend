@@ -13,7 +13,7 @@ import './DeleteTimeline.style.css';
 function DeleteTimeline({ handleCloseForm, timelineId, removeTimeline }) {
 	const [ confirm, confirmSet ] = useState(false);
 	const [ textConfirm, textConfirmSet ] = useState('');
-	const [ label, labelSet ] = useState("type... 'Burn it'");
+
 	const handleDelete = () => {
 		if (textConfirm === 'Burn it') {
 			fetch(URL + '/timelines/' + timelineId, {

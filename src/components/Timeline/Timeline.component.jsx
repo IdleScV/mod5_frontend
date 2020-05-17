@@ -73,7 +73,17 @@ function Timeline(props) {
 	}
 
 	if (response !== false && response !== null && response.status !== 404) {
-		const { title, picture, person, events, user, status, id: timelineId, person_id, user_id } = response;
+		const {
+			title,
+			// picture,
+			person,
+			events,
+			user,
+			//  status,
+			id: timelineId
+			//  person_id,
+			//  user_id
+		} = response;
 		const { username } = user;
 
 		const { birthday, deathday } = person;
@@ -142,9 +152,6 @@ function Timeline(props) {
 		const currentAgeToDate = () => {
 			return d.getFullYear() - findYear(birthday);
 		};
-		const roundUpTen = (num) => {
-			return Math.ceil((num + 1) / 10) * 10;
-		};
 
 		// Line-Marker
 		const lineMarkers = () => {
@@ -161,7 +168,6 @@ function Timeline(props) {
 				arr.push(eqDistance * i);
 			}
 
-			let currentRange = ageRange[1] - ageRange[0];
 			let markers = arr.map((num) => Math.floor(num + parseInt(findYear(birthday)) + ageRange[0]).toString());
 			let uniqueMarkers = [ ...new Set(markers) ];
 
@@ -217,7 +223,7 @@ function Timeline(props) {
 
 			return greater + lesser;
 		};
-		console.log(events);
+		console.log('# of Eventss', events.length);
 		console.log('Got to Timeline Component');
 		return (
 			<div className="timeline-component" ref={componentRef}>
@@ -357,7 +363,6 @@ function Timeline(props) {
 							{filterEventsByAge(
 								filterEventsByCategory(sortEvents(eventData ? eventData : events))
 							).map((event, i) => (
-								// {filterEventsByAge(sortEvents(events)).map((event, i) => (
 								<Event
 									event_data={event}
 									key={i}

@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-import { FormControl, TextField, Button, MenuItem } from '@material-ui/core';
+import { FormControl, TextField, Button } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { URL } from '../../../urlEnv';
 
 import './EditEvent.style.css';
 function EditEvent({ event_data, firebase_id, updateEventData, showEditBoxSet, showDetailBoxSet }) {
-	const { date, details, imageText, imageUrl, scale, snippet, user_id } = event_data;
+	const {
+		date,
+		details,
+		imageText,
+		imageUrl,
+		// scale,
+		snippet
+		//  user_id
+	} = event_data;
 	const [ Fdetails, FdetailsSet ] = useState(details);
 	const [ Fsnippet, FsnippetSet ] = useState(snippet);
 	const [ FimageUrl, FimageUrlSet ] = useState(imageUrl);

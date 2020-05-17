@@ -14,23 +14,21 @@ function Event({
 	let [ clicked, clickedSet ] = useState(false);
 	let [ boxLocation, boxLocationSet ] = useState('left');
 	let [ boxPercentage, boxPercentageSet ] = useState('');
-	// let { image, link, location, reference, snippet, types, user } = event_data;
-	// console.log(currentAge);
 
 	let {
-		date,
-		details,
-		id: eventId,
-		imageText,
-		imageUrl,
-		instance_id,
+		// date,
+		// details,
+		// id: eventId,
+		// imageText,
+		// imageUrl,
+		// instance_id,
 		instance_type,
-		link,
-		location,
+		// link,
+		// location,
 		scale,
-		snippet,
-		birth,
-		sortedOrder
+		snippet
+		// birth,
+		// sortedOrder
 	} = event_data;
 
 	let types = [ instance_type, scale ];
@@ -70,33 +68,14 @@ function Event({
 	);
 
 	const showType = (typeArr) => {
-		let colorPicker = (type_str) => {
-			switch (type_str) {
-				case 'Major':
-					return 'secondary';
-				case 'Minor':
-					return 'secondary';
-				case 'Personal':
-					return 'primary';
-				case 'World':
-					return 'primary';
-				case 'Country':
-					return 'primary';
-				case 'City':
-					return 'primary';
-				default:
-					return 'primary';
-			}
-		};
 		return typeArr.map((type, i) => (
 			<div className="badge-item" key={i} style={{ color: 'black' }}>
 				{type[0]}
 			</div>
 		));
 	};
-
+	console.log('Got to Event');
 	return (
-		// <div>Event</div>
 		<div
 			className={`event-box ${boxLocation} `}
 			id={clicked ? 'selected' : ''}
