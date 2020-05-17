@@ -1,4 +1,5 @@
-export const URL = 'http://localhost:3000/';
+// export const URL = 'http://localhost:3000/';
+export const URL = 'https://immense-savannah-15383.herokuapp.com/';
 
 export const ROUTES = {
 	HOME: '/mod5_frontend/',
