@@ -74,7 +74,7 @@ function Event({
 			</div>
 		));
 	};
-	console.log('Got to Event');
+
 	return (
 		<div
 			className={`event-box ${boxLocation} `}
@@ -97,7 +97,7 @@ function Event({
 			)}
 
 			<div className="event-labels">
-				<div className="snippet-box">{snippet}</div>
+				<div className="snippet-box">{snippet.length > 30 ? snippet.substring(0, 30) + '...' : snippet}</div>
 				<div className="event-right-label">
 					<div className="current-age">age {Math.floor(currentAge)}</div>
 					<div className="label-types">{showType(types)}</div>
