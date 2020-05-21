@@ -223,8 +223,7 @@ function Timeline(props) {
 
 			return greater + lesser;
 		};
-		console.log('# of Eventss', events.length);
-		console.log('Got to Timeline Component');
+
 		return (
 			<div className="timeline-component" ref={componentRef}>
 				<div className="header">
