@@ -115,7 +115,7 @@ function NewTimeline(props) {
 							type="date"
 							value={deathday}
 							className="input date"
-							helperText="Death day (optional)"
+							helperText="End date (optional)"
 							InputLabelProps={{
 								shrink: true
 							}}

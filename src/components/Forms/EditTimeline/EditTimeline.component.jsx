@@ -105,7 +105,7 @@ function EditTimeline({ handleCloseForm, timelineId, timelineData, replaceTimeli
 							type="date"
 							value={deathday ? deathday : ''}
 							className="input date"
-							helperText="Death day (optional)"
+							helperText="End date (optional)"
 							InputLabelProps={{
 								shrink: true
 							}}
