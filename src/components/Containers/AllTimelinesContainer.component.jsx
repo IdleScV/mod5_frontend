@@ -19,7 +19,11 @@ function AllTimelineContainer() {
 	return (
 		<div className="browse-timeliens-page">
 			<div className="all-timelines-container">
-				{timelines ? timelines.map((timeline, i) => <TimelineCard data={timeline} key={i} />) : null}
+				{timelines ? (
+					timelines.map((timeline, i) => <TimelineCard data={timeline} key={i} />)
+				) : (
+					<div>Loading Rails Backend from Heroku. . . </div>
+				)}
 			</div>
 		</div>
 	);
