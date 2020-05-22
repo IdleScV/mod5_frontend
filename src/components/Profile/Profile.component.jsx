@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { withAuthorization } from '../../authentication/Session';
 
 // Links
-import { URL } from '../../urlEnv/index';
+import { URL, ROUTES } from '../../urlEnv/index';
 import { Link } from 'react-router-dom';
 
 // Components
@@ -98,7 +98,7 @@ function Profile(props) {
 					<div>
 						<h2>
 							<div>My Timelines </div>
-							<Link to="/create">
+							<Link to={ROUTES.CREATE}>
 								<AddBoxIcon />
 							</Link>
 						</h2>
