@@ -1,0 +1,36 @@
+.events-collection {
+	z-index: 4000;
+	/* border: solid black 4px; */
+	position: fixed;
+	width: 47%;
+	height: 55%;
+	top: 25%;
+	right: 26%;
+	font-weight: 700;
+	background-color: white;
+	/* padding: 10px; */
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.events-collection .filters {
+	/* border: solid red 2px; */
+	top: 0;
+}
+
+.event-card {
+	height: 100px;
+	/* border: solid red 2px; */
+	display: flex;
+	justify-content: space-around;
+}
+
+.event-card .left {
+	border: solid red 2px;
+	width: 80%;
+}
+
+.event-card .right {
+	border: solid red 2px;
+	width: 20%;
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 // Component
 import CountryRegionMUISelectors from '../Selector/CountryRegionMUISelectors.component';
+import EventsCollection from '../../Containers/Events/EventsCollection.component';
 
 // Links
 import { URL } from '../../../urlEnv';
@@ -22,6 +23,7 @@ function NewEventButton({ maker_id, firebase_id, events, eventDataSet, eventData
 	const [ country, countrySet ] = useState('');
 	const [ region, regionSet ] = useState('');
 	const [ picLink, picLinkSet ] = useState('');
+	let [ nonPersonalEvents, nonPersonalEventsSet ] = useState(false);
 	// Add Event
 	const handleAddEvent = () => {
 		showFormSet(true);
@@ -81,7 +83,20 @@ function NewEventButton({ maker_id, firebase_id, events, eventDataSet, eventData
 				</Button>
 				<div className="add-event-form">
 					<FormControl>
-						<div>Add an Event</div>
+						<div>
+							Add an Event
+							<div>
+								<Button
+									onClick={() => {
+										nonPersonalEventsSet(!nonPersonalEvents);
+									}}
+								>
+									{nonPersonalEvents ? 'Close Browser' : 'Browse Event Library'}
+								</Button>
+								{nonPersonalEvents ? <EventsCollection /> : null}
+							</div>
+						</div>
+
 						<TextField
 							label="Title"
 							name="snippet"

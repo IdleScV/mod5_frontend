@@ -243,8 +243,6 @@ function Timeline(props) {
 							eventDataSet={eventDataSet}
 							timelineId={timelineId}
 						/>
-
-						<div className="author">Made by: {username}</div>
 					</div>
 				</div>
 				<div className="filters">
@@ -384,6 +382,7 @@ function Timeline(props) {
 							(ageRange[1] ? ageRange[1] : deathday ? deathAge() : currentAgeToDate())}
 					</div>
 				</div>
+				<div className="author">Made by: {username}</div>
 			</div>
 		);
 	} else {
